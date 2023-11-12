@@ -269,6 +269,19 @@ module testbench;
         reset = 1;
         $dumpvars(36, clk, reset, tail, empty, valid);
 
+        #10
+        // Проверяем, что удалили числа
+        if (empty !== 1) $error ("queue is not empty!");
+        if (valid !== 1) $error ("queue is not valid!");
+        reset = 0;
+        op = 5;
+        $dumpvars(35, clk, reset, tail, empty, valid);
+
+        #10
+        // Проверяем, что не можем делить, когда нет чисел
+        if (valid !== 0) $error ("queue is valid!");
+        $dumpvars(36, clk, reset, tail, empty, valid);
+
         $stop;
     end
 
