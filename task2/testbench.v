@@ -13,6 +13,11 @@ module testbench;
 
     initial begin
         $dumpfile("test.vcd");
+        reset = 1;
+
+        #1
+        reset = 0;
+
         #10
         if (tail !== 8'bx) $error ("tail is not empty!");
         op = 0;

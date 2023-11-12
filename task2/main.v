@@ -7,11 +7,11 @@ module main(in, op, apply, tail, valid, empty, clk, reset);
     input [2 : 0] op;
 
     output reg [WIDTH - 1 : 0] tail;
-    output reg valid = 1;
-    output reg empty = 1;
+    output reg valid;
+    output reg empty;
 
     reg [WIDTH - 1 : 0] queue [QUEUE_SIZE-1 : 0];
-    reg [2 : 0] size = 0;
+    reg [2 : 0] size;
     reg [WIDTH - 1 : 0] op1, op2;
     integer i;
 
