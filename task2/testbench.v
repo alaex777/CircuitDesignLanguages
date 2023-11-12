@@ -275,12 +275,12 @@ module testbench;
         if (valid !== 1) $error ("queue is not valid!");
         reset = 0;
         op = 5;
-        $dumpvars(35, clk, reset, tail, empty, valid);
+        $dumpvars(37, clk, reset, tail, empty, valid);
 
         #10
         // Проверяем, что не можем делить, когда нет чисел
         if (valid !== 0) $error ("queue is valid!");
-        $dumpvars(36, clk, reset, tail, empty, valid);
+        $dumpvars(38, clk, reset, tail, empty, valid);
 
         $stop;
     end
