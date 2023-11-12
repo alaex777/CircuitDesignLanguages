@@ -17,135 +17,120 @@ module main(in, op, apply, tail, valid, empty, clk, reset);
 
     always @(posedge clk or posedge reset)
         if (reset) begin
-            valid = 1;
-            empty = 1;
-            size = 0;
+            valid <= 1;
+            empty <= 1;
+            size <= 0;
         end
 
         else
             if (apply) begin
                 if (op === 0) begin
-                    if (size === 5) valid = 0;
+                    if (size === 5) valid <= 0;
                     else begin
-                        size = size + 1;
-                        queue[size - 1] = in;
-                        tail = queue[size - 1];
-                        empty = 0;
+                        size <= size + 1;
+                        queue[size] = in;
+                        tail <= in;
+                        empty <= 0;
                     end
                 end
                 
                 else if (op === 1) begin
-                    if (size === 0) valid = 0;
+                    if (size === 0) valid <= 0;
                     else begin
                         for (i = 0; i < QUEUE_SIZE - 1; i = i + 1) begin
-                            queue[i] = queue[i+1];
+                            queue[i] <= queue[i+1];
                         end;
 
-                        queue[size - 1] = 8'bx;
+                        queue[size - 1] <= 8'bx;
 
-                        size = size - 1;
-                        if (size === 0) empty = 1;
+                        if (size === 1) empty <= 1;
+                        size <= size - 1;
                     end
                 end
                 
                 else if (op === 2) begin
-                    if (size < 2) valid = 0;
+                    if (size < 2) valid <= 0;
                     else begin
-                        op1 = queue[0];
-                        op2 = queue[1];
-
                         for (i = 0; i < QUEUE_SIZE - 2; i = i + 1) begin
-                            queue[i] = queue[i+2];
+                            queue[i] <= queue[i+2];
                         end;
 
-                        queue[size - 1] = 8'bx;
-                        queue[size - 2] = op1 + op2;
+                        queue[size - 1] <= 8'bx;
+                        queue[size - 2] <= queue[0] + queue[1];
 
-                        size = size - 1;
-                        tail = queue[size - 1];
+                        size <= size - 1;
+                        tail <= queue[0] + queue[1];
                     end
                 end
                 
                 else if (op === 3) begin
-                    if (size < 2) valid = 0;
+                    if (size < 2) valid <= 0;
                     else begin
-                        op1 = queue[0];
-                        op2 = queue[1];
-
                         for (i = 0; i < QUEUE_SIZE - 2; i = i + 1) begin
-                            queue[i] = queue[i+2];
+                            queue[i] <= queue[i+2];
                         end;
 
-                        queue[size - 1] = 8'bx;
-                        queue[size - 2] = op1 * op2;
+                        queue[size - 1] <= 8'bx;
+                        queue[size - 2] <= queue[0] * queue[1];
 
-                        size = size - 1;
-                        tail = queue[size - 1];
+                        size <= size - 1;
+                        tail <= queue[0] * queue[1];
                     end
                 end
 
                 else if (op === 4) begin
-                    if (size < 2) valid = 0;
+                    if (size < 2) valid <= 0;
                     else begin
-                        op1 = queue[0];
-                        op2 = queue[1];
-
                         for (i = 0; i < QUEUE_SIZE - 2; i = i + 1) begin
-                            queue[i] = queue[i+2];
+                            queue[i] <= queue[i+2];
                         end;
 
-                        queue[size - 1] = 8'bx;
-                        queue[size - 2] = op2 - op1;
+                        queue[size - 1] <= 8'bx;
+                        queue[size - 2] <= queue[1] - queue[0];
 
-                        size = size - 1;
-                        tail = queue[size - 1];
+                        size <= size - 1;
+                        tail <= queue[1] - queue[0];
                     end
                 end
                 
                 else if (op === 5) begin
-                    if (size < 2) valid = 0;
+                    if (size < 2) valid <= 0;
                     else begin
-                        op1 = queue[0];
-                        op2 = queue[1];
-
-                        if (op1 === 0) valid = 0;
+                        if (queue[0] === 0) valid <= 0;
                         else begin
                             for (i = 0; i < QUEUE_SIZE - 2; i = i + 1) begin
-                                queue[i] = queue[i+2];
+                                queue[i] <= queue[i+2];
                             end;
 
-                            queue[size - 1] = 8'bx;
-                            queue[size - 2] = op2 / op1;
+                            queue[size - 1] <= 8'bx;
+                            queue[size - 2] <= queue[1] / queue[0];
 
-                            size = size - 1;
-                            tail = queue[size - 1];
+                            size <= size - 1;
+                            tail <= queue[1] / queue[0];
                         end
                     end
                 end
                 
                 else if (op === 6) begin
-                    if (size < 2) valid = 0;
+                    if (size < 2) valid <= 0;
                     else begin
-                        op1 = queue[0];
-                        op2 = queue[1];
-
-                        if (op1 === 0) valid = 0;
+                        if (queue[0] === 0) valid <= 0;
                         else begin
                             for (i = 0; i < QUEUE_SIZE - 2; i = i + 1) begin
-                                queue[i] = queue[i+2];
+                                queue[i] <= queue[i+2];
                             end;
 
-                            queue[size - 1] = 8'bx;
-                            queue[size - 2] = op2 % op1;
+                            queue[size - 1] <= 8'bx;
+                            queue[size - 2] <= queue[1] % queue[0];
 
-                            size = size - 1;
-                            tail = queue[size - 1];
+                            size <= size - 1;
+                            tail <= queue[1] % queue[0];
                         end
                     end
                 end
                 
                 else begin
-                    valid = 0;
+                    valid <= 0;
                 end
             end
 
